@@ -1,10 +1,9 @@
 import pytest
-from aioworkers.core.config import Config
-from aioworkers.core.context import Context
 
 
 @pytest.fixture
 def config():
+    from aioworkers.core.config import Config
     return Config(
         db={
             'cls': 'aioworkers_pg.base.Connector',
@@ -15,5 +14,6 @@ def config():
 
 @pytest.fixture
 def context(config, loop):
+    from aioworkers.core.context import Context
     with Context(config, loop=loop) as ctx:
         return ctx

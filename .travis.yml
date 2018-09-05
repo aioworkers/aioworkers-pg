@@ -11,7 +11,7 @@ before_script:
 script:
 - python setup.py test
 before_deploy:
-- echo "__version__ = '$(shell git describe --tags)'" > aioworkers_pg/version.py
+- echo "__version__ = '$(git describe --tags)'" > aioworkers_pg/version.py
 deploy:
   provider: pypi
   user: abogushov
@@ -19,5 +19,5 @@ deploy:
     secure: Gjrc4tpR2aoMzzfyWjprhtlnY0jV4m/ufYB9AEDSBD+zO2Nx5AKMT6+Fj7IKJEos0Gc/Th6M/oeNDvG4jrxjsGS75ypKFCp8dYQ44/4NZZuL56jVa8zDLqMbM3zOfICvNI80YamrQMN6mc3MSkq3XBOHcAAnNVU2W9sSJ/MZnJZGOb7N8WiaNwtmWvR/pD3KoZhpocpAimWigRAWbMcyPKuWuAS5IzpuRBNA+ptcicLpIQkheOOfn0kRGx90mNQUu9/CKA+LUuB3eVBBOxYzV46H3uOt6qykqebUURYVN5l0fwvHy+AX5thJcP49jsJ1XZlpF+d507StddvwG+Bu8lHvVjReqT9fi8w2H4zIdNJj/71SsiZUBA809poZHR/To7LHpzKV3n0sFpeagVediSuQqaOeCapRejsnzV68QEe0vImPRD9qCIFY/lW+eXhfUob5WhAdOYra9I8HWf37EWt5g84YGI7yTsArYt1gecrJ66wvG0knDbDhFOXkQdA3twvX67rpEa2U28JLkdDMnlftXMQRqpMScxVIyflsH+bB//vuqwQJqN0XRFMwqdYjh0LV2IpmF2SCBoGj2nrTp9pqV8yS6ZC6B4e+h5+qmK6w8J0cX7clJKjRjiDV9xrLpwf0lPRY6IUZLNdslBt4hMZ2Ieo9L/89kwRP2r740LU=
   on:
     tags: true
-    condition: "$TRAVIS_PYTHON_VERSION = 3.6"
+    condition: $TRAVIS_PYTHON_VERSION = 3.6
   skip_cleanup: true

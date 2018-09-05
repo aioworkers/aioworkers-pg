@@ -1,19 +1,23 @@
 language: python
-
 sudo: false
-
 services: postgresql
-
 python:
 - 3.5
 - 3.6
-
 install:
 - pip install pytest-runner
-
 before_script:
-  - psql -c 'create database test;' -U postgres
-
+- psql -c 'create database test;' -U postgres
 script:
 - python setup.py test
-
+before_deploy:
+- echo "__version__ = '$(shell git describe --tags)'" > aioworkers_pg/version.py
+deploy:
+  provider: pypi
+  user: abogushov
+  password:
+    secure: HYNRNNlzAcSi5BGjUsHbI1hjxKFJYTAn4q742nP2RDzfH2XX/hu4Yfx1aocJF85p6Oq8bDVd9RnpGuOc8yE5rKkhB4XBBCW4ufGkN7aCxnvXsx+mm3m10S71ycuLCImeO2ck4DjLoSflXqTxNkrIWpIqwrNsQZICq1W3Tb0Lv4E621c9HaIjl8p7xC5x5fp5pOOXKsWmVHtuAO0J2qL4NfQkfdPIcnjQaXYqE5+gpjuVha44GV8SszmM5QF52jEgVom+9G2BUvpUi6ojahCGJKAvHzd9l4V4piPH0RjJ8V2D2Ya4ELzcf8eD79ZEjOS/mpaBAHzRZwMaJd213A8Gsfy7TV+ALvgZzmuQgqjks17btk7NlY9L72WmNuswQ+Q6RMB7vscyh5W94FkFpJ1kD9jbmdzWHEPVh0Q5yxmS3RZBWdSZ1R4vlihPJvVWxD5zxyCgoX7jGlnS3gvz8658I5R+g+LOkd1pAKD76c3rY6af7aCY2aftR86HfS3+k6hAzcQdxvt3tJFuUyIEPFoDiDVlPmBQoleknCS1xaRUUnV1lMb4c5nHjCk3/fJu8zJz7DzHi5KbdMsHdeb9AkD06TVi197PgYqMTW/yk75bwdj0cI4s64u/JwjGktZ7LW1f7YBkL55Iv58HQsFFeZzr4Ov5Dk3WaUfmjGyL9oXSTrY=
+  on:
+    tags: true
+    condition: "$TRAVIS_PYTHON_VERSION = 3.6"
+  skip_cleanup: true

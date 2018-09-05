@@ -28,7 +28,6 @@ class Connector(AbstractEntity):
     async def init(self):
         await super().init()
         dsn = self.config.dsn
-        logger.info(f"Connect to {dsn}")
         self._pool = await asyncpg.create_pool(dsn, loop=self.loop)
         for method_name in self.__bind_methods:
             f = getattr(self._pool, method_name)

@@ -1,5 +1,4 @@
 import pytest
-import sqlalchemy as sa
 
 
 @pytest.fixture
@@ -17,6 +16,7 @@ async def test_sa_connector(context):
     """
     Test common asyncpg pool methods which were bind to connector.
     """
+    import sqlalchemy as sa
     users = sa.Table(
         'users', sa.MetaData(),
         sa.Column('id', sa.Integer, primary_key=True),

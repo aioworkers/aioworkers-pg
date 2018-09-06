@@ -25,10 +25,11 @@ class Connector(AbstractEntity):
         super().__init__(config, context=context, loop=loop)
         self._pool = None
 
+    async def _create_pool(self):
+        return await asyncpg.create_pool(self.config.dsn)
+
     async def init(self):
-        await super().init()
-        dsn = self.config.dsn
-        self._pool = await asyncpg.create_pool(dsn, loop=self.loop)
+        self._pool = await self._create_pool()
         for method_name in self.__bind_methods:
             f = getattr(self._pool, method_name)
             if f:

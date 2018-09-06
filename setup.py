@@ -7,6 +7,8 @@ version = __import__('aioworkers_pg').__version__
 requirements = [
     'aioworkers>=0.8.0',
     'asyncpg',
+    'sqlalchemy',
+    'asyncpgsa',
 ]
 
 test_requirements = [

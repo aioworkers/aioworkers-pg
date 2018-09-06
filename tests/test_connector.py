@@ -1,4 +1,18 @@
-async def test_pool_methods(context):
+import pytest
+
+
+@pytest.fixture
+def config():
+    from aioworkers.core.config import Config
+    return Config(
+        db={
+            'cls': 'aioworkers_pg.base.Connector',
+            'dsn': 'postgresql://localhost/test',
+        },
+    )
+
+
+async def test_connector(context):
     """
     Test common asyncpg pool methods which were bind to connector.
     """

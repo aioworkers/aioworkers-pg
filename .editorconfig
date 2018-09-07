@@ -16,6 +16,9 @@ max_line_length = 99
 [*.{yml,yaml}]
 indent_size = 2
 
+[*.rst]
+indent_size = 2
+
 [*.mk]
 indent_style = tab
 indent_size = 1

@@ -1,6 +1,7 @@
 language: python
 sudo: false
-services: postgresql
+addons:
+  postgresql: 9.6
 python:
 - 3.5
 - 3.6

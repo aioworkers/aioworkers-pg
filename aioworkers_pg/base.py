@@ -1,3 +1,4 @@
+
 import logging
 
 import asyncpg
@@ -26,7 +27,20 @@ class Connector(AbstractEntity):
         self._pool = None
 
     async def _create_pool(self):
-        return await asyncpg.create_pool(self.config.dsn)
+        return await asyncpg.create_pool(self.config.dsn, init=self._init_connection)
+
+    async def _init_connection(self, connection):
+        import json
+        # TODO: Need general solution to add codecs
+        # https://github.com/aioworkers/aioworkers-pg/issues/1
+        # Add codecs for json.
+        for t in ['json', 'jsonb']:
+            await connection.set_type_codec(
+                t,
+                encoder=json.dumps,
+                decoder=json.loads,
+                schema='pg_catalog',
+            )
 
     async def init(self):
         self._pool = await self._create_pool()

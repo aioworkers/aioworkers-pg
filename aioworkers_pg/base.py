@@ -25,6 +25,10 @@ class Connector(AbstractEntity):
     def __init__(self, config=None, *, context=None, loop=None):
         super().__init__(config, context=context, loop=loop)
         self._pool = None
+        self.context.on_stop.append(self.stop)
+
+    async def stop(self):
+        await self._pool.close()
 
     async def _create_pool(self):
         return await asyncpg.create_pool(self.config.dsn, init=self._init_connection)

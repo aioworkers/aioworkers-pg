@@ -5,4 +5,4 @@ import pytest
 def context(config, loop):
     from aioworkers.core.context import Context
     with Context(config, loop=loop) as ctx:
-        return ctx
+        yield ctx

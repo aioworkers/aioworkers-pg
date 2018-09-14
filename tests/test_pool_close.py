@@ -7,9 +7,6 @@ async def test_pool_close(loop):
             'dsn': 'postgresql://localhost/test',
         },
     )
-    c = Context(conf, loop=loop)
-    await c.init()
-    await c.start()
-    assert not c.db._pool._closed
-    await c.stop()
+    async with Context(conf, loop=loop) as c:
+        assert not c.db._pool._closed
     assert c.db._pool._closed

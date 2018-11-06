@@ -6,6 +6,7 @@ python:
 - 3.6
 - 3.7-dev
 install:
+- pip install -U pip setuptools
 - pip install pytest-runner
 before_script:
 - psql -c 'create database test;' -U postgres

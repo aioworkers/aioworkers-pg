@@ -5,6 +5,7 @@ addons:
 python:
 - 3.5
 - 3.6
+- 3.7-dev
 install:
 - pip install pytest-runner
 before_script:

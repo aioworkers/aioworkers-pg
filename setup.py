@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 
-from setuptools import setup, find_packages
+import pathlib
+
+from setuptools import find_packages, setup
 
 version = __import__('aioworkers_pg').__version__
 
@@ -19,10 +21,14 @@ test_requirements = [
     'flake8-isort',
 ]
 
+readme = pathlib.Path('README.rst').read_text()
+
+
 setup(
     name='aioworkers-pg',
     version=version,
     description='Module for working with Postgres SQL via asyncpg',
+    long_description=readme,
     author='Alexander Bogushov',
     author_email='abogushov@gmail.com',
     url='https://github.com/aioworkers/aioworkers-pg',
@@ -36,8 +42,8 @@ setup(
         'Intended Audience :: Developers',
         'License :: OSI Approved :: Apache Software License',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
     ],
     test_suite='tests',
     tests_require=test_requirements,

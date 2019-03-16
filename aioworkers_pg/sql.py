@@ -32,7 +32,7 @@ class SQL:
         self._data = kwargs
 
     def with_data(self, *args, **kwargs):
-        m = ChainMap(kwargs, *reversed(args))
+        m = ChainMap(kwargs, *reversed(args), self._data)
         cls = type(self)
         return cls(self._sql, *self._compiled, **m)
 

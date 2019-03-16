@@ -47,6 +47,7 @@ class Connector(AbstractEntity):
             )
 
     async def init(self):
+        await super().init()
         self._pool = await self._create_pool()
         for method_name in self.__bind_methods:
             f = getattr(self._pool, method_name)

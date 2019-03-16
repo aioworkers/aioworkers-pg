@@ -41,3 +41,4 @@ Storage
         table: mytable  # optional instead custom sql
         key: id
         get: SELECT * FROM mytable WHERE id = :id  # optional custom sql
+        format: dict  # or row

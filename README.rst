@@ -19,8 +19,8 @@ Add this to aioworkers config.yaml:
 .. code-block:: yaml
 
     db:
-        cls: 'aioworkers_pg.base.Connector'
-        dsn: 'postgresql://localhost/test'
+        cls: aioworkers_pg.base.Connector
+        dsn: postgresql:///test
 
 You can get access to postgres anywhere via context:
 
@@ -28,3 +28,16 @@ You can get access to postgres anywhere via context:
 
     await context.db.execute('CREATE TABLE users(id serial PRIMARY KEY, name text)')
     await context.db.execute(users.insert().values(name='Bob'))
+
+
+Storage
+~~~~~~~
+
+.. code-block:: yaml
+
+    storage:
+        cls: aioworkers_pg.storage.RoStorage
+        dsn: postgresql:///test
+        table: mytable  # optional instead custom sql
+        key: id
+        get: SELECT * FROM mytable WHERE id = :id  # optional custom sql

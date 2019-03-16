@@ -1,8 +1,8 @@
 from aioworkers.storage.base import AbstractStorageReadOnly
 
-from aioworkers_pg.base import Connector
-from aioworkers_pg.formatter import PGFormattedEntity
-from aioworkers_pg.sql import SQL, Table
+from .base import Connector
+from .formatter import PGFormattedEntity
+from .sql import SQL, Table
 
 
 class RoStorage(PGFormattedEntity, Connector, AbstractStorageReadOnly):

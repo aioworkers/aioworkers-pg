@@ -2,12 +2,12 @@ import pytest
 
 
 @pytest.fixture
-def config():
+def config(dsn):
     from aioworkers.core.config import Config
     return Config(
         db={
             'cls': 'aioworkers_pg.sa.Connector',
-            'dsn': 'postgresql://localhost/test',
+            'dsn': dsn,
         },
     )
 

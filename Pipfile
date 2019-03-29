@@ -1,0 +1,19 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+aioworkers = "*"
+asyncpgsa = "*"
+
+[dev-packages]
+
+pytest = "*"
+pytest-aioworkers = "*"
+pytest-flake8 = "*"
+pytest-runner = "*"
+flake8-isort = "*"
+
+[requires]
+python_version = "3.7"

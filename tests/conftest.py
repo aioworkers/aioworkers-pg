@@ -9,13 +9,6 @@ def dsn():
 
 
 @pytest.fixture
-def context(config, loop):
-    from aioworkers.core.context import Context
-    with Context(config, loop=loop) as ctx:
-        yield ctx
-
-
-@pytest.fixture
 def recreate_table(context):
     async def recreate_table(name, *fields):
         await context.db.execute('DROP TABLE IF EXISTS {}'.format(name))

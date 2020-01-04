@@ -2,9 +2,8 @@ import pytest
 
 
 @pytest.fixture
-def config(dsn):
-    from aioworkers.core.config import Config
-    return Config(
+def config(config, dsn):
+    config.update(
         db={
             'cls': 'aioworkers_pg.base.Connector',
             'dsn': dsn,
@@ -17,6 +16,7 @@ def config(dsn):
             'format': 'dict',
         },
     )
+    return config
 
 
 async def test_ro_storage(context, recreate_table):

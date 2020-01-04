@@ -2,14 +2,14 @@ import pytest
 
 
 @pytest.fixture
-def config(dsn):
-    from aioworkers.core.config import Config
-    return Config(
+def config(config, dsn):
+    config.update(
         db={
             'cls': 'aioworkers_pg.sa.Connector',
             'dsn': dsn,
         },
     )
+    return config
 
 
 async def test_sa_connector(context):

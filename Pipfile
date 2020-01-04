@@ -4,16 +4,16 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-aioworkers = "*"
+aioworkers = ">=0.15"
 asyncpgsa = "*"
 
 [dev-packages]
-
 pytest = "*"
 pytest-aioworkers = "*"
 pytest-flake8 = "*"
-pytest-runner = "*"
 flake8-isort = "*"
+pyyaml = "*"
+mypy = "*"
 
 [requires]
 python_version = "3.7"

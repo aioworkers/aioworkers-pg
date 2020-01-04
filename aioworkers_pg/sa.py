@@ -1,11 +1,15 @@
+# true
 from .base import Connector as BaseConnector
 
 
 class Connector(BaseConnector):
-
-    async def _create_pool(self):
+    async def pool_factory(self, config):
         import asyncpgsa
-        return await asyncpgsa.create_pool(self.config.dsn, init=self._init_connection)
+        pool = await asyncpgsa.create_pool(
+            config.dsn, init=self._init_connection,
+        )
+        self.logger.debug('Create pool with address %s', config.dsn)
+        return pool
 
     async def _init_connection(self, connection):
         import json

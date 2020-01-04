@@ -1,37 +1,41 @@
-
-import logging
-
 import asyncpg
-from aioworkers.core.base import AbstractEntity
-
-logger = logging.getLogger('aioworkers_pg')
+from aioworkers.core.base import AbstractConnector
 
 
-class Connector(AbstractEntity):
-    # Method from pool which will be bind to connector
-    __bind_methods = (
-        'execute',
-        'executemany',
-        'fetch',
-        'fetchval',
-        'fetchrow',
-        'acquire',
-        'release',
-        'close',
-        'release',
-        'terminate',
-    )
-
-    def __init__(self, config=None, *, context=None, loop=None):
-        super().__init__(config, context=context, loop=loop)
+class Connector(AbstractConnector):
+    def __init__(self, *args, **kwargs):
         self._pool = None
-        self.context.on_stop.append(self.stop)
+        super().__init__(*args, **kwargs)
 
-    async def stop(self):
-        await self._pool.close()
+    def set_config(self, config):
+        cfg = config.new_parent(logger='aioworkers_pg')
+        super().set_config(cfg)
 
-    async def _create_pool(self):
-        return await asyncpg.create_pool(self.config.dsn, init=self._init_connection)
+    @property
+    def pool(self) -> asyncpg.pool.Pool:
+        assert self._pool
+        return self._pool
+
+    def __getattr__(self, attr):
+        # Proxy all unresolved attributes to the wrapped Pool object.
+        return getattr(self._pool, attr)
+
+    async def connect(self):
+        if self._pool is None:
+            self._pool = await self.pool_factory(self.config)
+
+    async def pool_factory(self, config):
+        pool = await asyncpg.create_pool(
+            config.dsn, init=self._init_connection,
+        )
+        self.logger.debug('Create pool with address %s', config.dsn)
+        return pool
+
+    async def disconnect(self):
+        if self._pool is not None:
+            self.logger.debug('Close pool')
+            await self._pool.close()
+            self._pool = None
 
     async def _init_connection(self, connection):
         import json
@@ -45,11 +49,3 @@ class Connector(AbstractEntity):
                 decoder=json.loads,
                 schema='pg_catalog',
             )
-
-    async def init(self):
-        await super().init()
-        self._pool = await self._create_pool()
-        for method_name in self.__bind_methods:
-            f = getattr(self._pool, method_name)
-            if f:
-                setattr(self, method_name, f)

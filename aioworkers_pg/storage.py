@@ -1,11 +1,18 @@
 from aioworkers.storage.base import AbstractStorageReadOnly
 
+# true
 from .base import Connector
 from .formatter import PGFormattedEntity
 from .sql import SQL, Table
 
 
 class RoStorage(PGFormattedEntity, Connector, AbstractStorageReadOnly):
+    def __init__(self, *args, **kwargs):
+        self._key = ''
+        self._table = None
+        self._get_sql = None
+        super().__init__(*args, **kwargs)
+
     def set_config(self, config):
         super().set_config(config)
         self._key = self.config.key

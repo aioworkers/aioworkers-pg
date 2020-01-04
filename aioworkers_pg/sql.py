@@ -2,6 +2,7 @@ import re
 from collections import ChainMap
 from typing import Any, Match, Sequence
 
+
 NAME = re.compile(r'[^:]:([\d\w_]+)')
 
 
@@ -39,7 +40,7 @@ class SQL:
     @staticmethod
     def _get_params(sql: str) -> Sequence[Any]:
         result = [sql]
-        pos = {}
+        pos = {}  # type: dict
 
         def repl(m: Match) -> str:
             name = m.group(1)

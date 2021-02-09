@@ -44,6 +44,12 @@ Install dev requirements:
 poetry install --no-root
 ```
 
+Run postgres:
+
+```shell
+docker run --rm -p 5432:5432 --name postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=test -d postgres
+```
+
 Run tests:
 
 ```shell

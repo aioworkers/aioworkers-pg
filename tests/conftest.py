@@ -5,7 +5,7 @@ import pytest
 
 @pytest.fixture(scope='session')
 def dsn():
-    return os.environ.get('PG_DSN', 'postgresql://localhost/test')
+    return os.environ.get('PG_DSN', 'postgresql://postgres:postgres@localhost/test')
 
 
 @pytest.fixture

@@ -1,10 +1,11 @@
 [tool.poetry]
 name = "aioworkers-pg"
-version = "0.2.1-alpha.0"
+version = "0.2.1-alpha.1"
 description = "Module for working with PostgreSQL via asyncpg"
 authors = ["Alexander Bogushov <abogushov@gmail.com>"]
 license = "Apache Software License 2.0"
-readme = "README.rst"
+readme = "README.md"
+homepage = "https://github.com/aioworkers/aioworkers-pg"
 repository = "https://github.com/aioworkers/aioworkers-pg"
 
 classifiers = [

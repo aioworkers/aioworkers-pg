@@ -31,10 +31,12 @@ asyncpgsa = "*"
 [tool.poetry.dev-dependencies]
 pytest = "*"
 pytest-aioworkers = "*"
+black = "*"
+pytest-black = "*"
 pytest-flake8 = "*"
-flake8-isort = "*"
+flake8 = "*"
 pyyaml = "*"
-mypy = "*"
+pytest-mypy = "^0.8.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

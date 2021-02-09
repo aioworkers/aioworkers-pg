@@ -41,7 +41,7 @@ storage:
 Install dev requirements:
 
 ```shell
-poetry install --no-root
+poetry install
 ```
 
 Run postgres:

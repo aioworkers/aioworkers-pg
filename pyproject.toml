@@ -1,0 +1,40 @@
+[tool.poetry]
+name = "aioworkers-pg"
+version = "0.2.1-alpha.0"
+description = "Module for working with PostgreSQL via asyncpg"
+authors = ["Alexander Bogushov <abogushov@gmail.com>"]
+license = "Apache Software License 2.0"
+readme = "README.rst"
+repository = "https://github.com/aioworkers/aioworkers-pg"
+
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.6",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+]
+
+packages = [
+     { include = "aioworkers_pg" },
+]
+
+[tool.poetry.dependencies]
+python = "^3.6"
+aioworkers = ">=0.15"
+asyncpgsa = "*"
+
+[tool.poetry.dev-dependencies]
+pytest = "*"
+pytest-aioworkers = "*"
+pytest-flake8 = "*"
+flake8-isort = "*"
+pyyaml = "*"
+mypy = "*"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

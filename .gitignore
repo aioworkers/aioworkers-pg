@@ -103,5 +103,8 @@ venv.bak/
 # mypy
 .mypy_cache/
 
+# poetry
+poetry.lock
 
-aioworkers_pg/version.py
+# Idea
+.idea

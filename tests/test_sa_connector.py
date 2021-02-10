@@ -12,7 +12,6 @@ def config(config, dsn):
     return config
 
 
-@pytest.mark.skip()
 async def test_sa_connector(context):
     """
     Test common asyncpg pool methods which were bind to connector.
@@ -54,7 +53,6 @@ async def test_sa_connector(context):
     r = [i for i in await context.db.fetch(users.select())]
     assert 3 == len(r)
 
-    await context.db.close()
-
+    # await context.db.close()
     # Check that method available
-    context.db.terminate()
+    # context.db.terminate()

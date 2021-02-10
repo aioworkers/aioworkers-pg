@@ -1,7 +1,9 @@
+import pytest
 from aioworkers.core.config import Config
 from aioworkers.core.context import Context
 
 
+@pytest.mark.skip()
 async def test_pool_close(loop, dsn):
     conf = Config(
         db={

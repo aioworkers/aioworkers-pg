@@ -9,7 +9,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Poetry
-        uses: abatilo/actions-poetry@v2.0.0
+      - uses: actions/setup-python@v2
+          with:
+            python-version: 3.8
+      - name: Install dependencies
+        run: pip install poetry poetry-dynamic-versioning
+      - name: Install dependencies
+        run: poetry-dynamic-versioning
       - name: Install deps
-        run: poetry build
+        run: poetry build && ls dist

@@ -32,4 +32,4 @@ jobs:
       - name: Install deps
         run: poetry install --no-root
       - name: Run pytest
-        run: poetry run pytest -s
+        run: poetry run pytest

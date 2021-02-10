@@ -1,5 +1,5 @@
-name: Linux CI
-on: [push]
+name: CI
+on: [pull_request]
 
 jobs:
   ci:

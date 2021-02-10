@@ -9,6 +9,8 @@ class Connector(BaseConnector):
         pool = await asyncpgsa.create_pool(
             config.dsn,
             init=self._init_connection,
+            min_size=1,
+            max_size=2,
         )
         self.logger.debug("Create pool with address %s", config.dsn)
         return pool

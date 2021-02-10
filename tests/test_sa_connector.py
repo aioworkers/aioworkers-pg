@@ -12,7 +12,6 @@ def config(config, dsn):
     return config
 
 
-@pytest.mark.skip(reason="Test hangs on Github Actions")
 async def test_sa_connector(context):
     """
     Test common asyncpg pool methods which were bind to connector.

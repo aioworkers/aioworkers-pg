@@ -27,7 +27,7 @@ packages = [
 python = "^3.6"
 aioworkers = ">=0.15"
 asyncpg = "<=0.21.0"
-asyncpgsa = "*"
+asyncpgsa = "<0.27.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "*"

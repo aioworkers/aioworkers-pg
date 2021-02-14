@@ -21,6 +21,5 @@ jobs:
       - name: Publish
         shell: bash
         env:
-          PYPI_USERNAME: ${{ secrets.PYPI_USERNAME }}
-          PYPI_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
-        run: poetry publish -u "$PYPI_USERNAME" -p "$PYPI_PASSWORD"
+          POETRY_PYPI_TOKEN_PYPI: ${{ secrets.POETRY_PYPI_TOKEN_PYPI }}
+        run: poetry publish

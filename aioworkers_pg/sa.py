@@ -1,18 +1,22 @@
+import asyncpg
+from aioworkers.core.config import ValueExtractor
+
 # true
 from .base import Connector as BaseConnector
 
 
 class Connector(BaseConnector):
-    async def pool_factory(self, config):
+    async def pool_factory(self, config: ValueExtractor) -> asyncpg.pool.Pool:
         import asyncpgsa
         pool = await asyncpgsa.create_pool(
-            config.dsn, init=self._init_connection,
+            config.dsn, init=self._connection_init,
         )
         self.logger.debug('Create pool with address %s', config.dsn)
         return pool
 
-    async def _init_connection(self, connection):
+    async def _default_connection_init(self, connection: asyncpg.Connection):
         import json
+
         # TODO: Need general solution to add codecs
         # https://github.com/aioworkers/aioworkers-pg/issues/1
         # Add codecs for json.

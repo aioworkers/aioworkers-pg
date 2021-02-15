@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "aioworkers-pg"
-version = "0.0.0"
+version = "0.2.1a8.post5.dev0+447813f"
 description = "Module for working with PostgreSQL via asyncpg"
 authors = [
     "Alexander Bogushov <abogushov@gmail.com>",
@@ -50,3 +50,6 @@ build-backend = "poetry.core.masonry.api"
 enable = true
 # The pattern for git tag in pep440 format. It is the same as default but without the v prefix.
 pattern = "(?x)^(?P<base>\\d+\\.\\d+\\.\\d+)(-?((?P<stage>[a-zA-Z]+)\\.?(?P<revision>\\d+)?))?(\\+(?P<tagged_metadata>.+))?$"
+
+[tool.poetry-dynamic-versioning.substitution]
+enable = true

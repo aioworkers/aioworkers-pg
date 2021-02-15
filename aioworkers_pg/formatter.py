@@ -1,8 +1,11 @@
-from aioworkers.core.formatter import AsIsFormatter, BaseFormatter, FormattedEntity, Registry
+from aioworkers.core.formatter import AsIsFormatter
+from aioworkers.core.formatter import BaseFormatter
+from aioworkers.core.formatter import FormattedEntity
+from aioworkers.core.formatter import Registry
 
 
 class DictFormatter(BaseFormatter):
-    name = 'dict'
+    name = "dict"
 
     @staticmethod
     def decode(row):
@@ -14,7 +17,7 @@ class DictFormatter(BaseFormatter):
 
 
 class RowFormatter(AsIsFormatter):
-    name = 'row'
+    name = "row"
 
 
 class PGFormattedEntity(FormattedEntity):
@@ -24,4 +27,4 @@ class PGFormattedEntity(FormattedEntity):
 
     def set_config(self, config):
         super().set_config(config)
-        self._formatter = self.registry.get(self.config.get('format'))
+        self._formatter = self.registry.get(self.config.get("format"))

@@ -1,10 +1,12 @@
+from aioworkers.core.config import Config
+from aioworkers.core.context import Context
+
+
 async def test_pool_close(loop, dsn):
-    from aioworkers.core.context import Context
-    from aioworkers.core.config import Config
     conf = Config(
         db={
-            'cls': 'aioworkers_pg.base.Connector',
-            'dsn': dsn,
+            "cls": "aioworkers_pg.base.Connector",
+            "dsn": dsn,
         },
     )
     async with Context(conf, loop=loop) as c:

@@ -3,7 +3,7 @@ from collections import ChainMap
 from typing import Any, Match, Sequence
 
 
-NAME = re.compile(r'[^:]:([\d\w_]+)')
+NAME = re.compile(r"[^:]:([\d\w_]+)")
 
 
 class Table:
@@ -11,20 +11,20 @@ class Table:
         self.name = name
 
     def select(self, *fields, **where):
-        sql = ['SELECT']
+        sql = ["SELECT"]
         if fields:
-            sql.append(', '.join(fields))
+            sql.append(", ".join(fields))
         else:
-            sql.append('*')
-        sql.extend(('FROM', self.name))
+            sql.append("*")
+        sql.extend(("FROM", self.name))
         if where:
-            sql.append('WHERE')
-            sql.append(' AND '.join(' = '.join((k, ':' + k)) for k in where))
-        return SQL(' '.join(sql), **where)
+            sql.append("WHERE")
+            sql.append(" AND ".join(" = ".join((k, ":" + k)) for k in where))
+        return SQL(" ".join(sql), **where)
 
 
 class SQL:
-    __slots__ = ('_sql', '_compiled', '_args', '_data')
+    __slots__ = ("_sql", "_compiled", "_args", "_data")
 
     def __init__(self, sql, *compiled, **kwargs):
         self._sql = sql
@@ -49,7 +49,7 @@ class SQL:
             else:
                 position = pos.setdefault(name, len(result))
                 result.append(name)
-            return m.group(0).replace(':' + name, '${}'.format(position))
+            return m.group(0).replace(":" + name, "${}".format(position))
 
         result[0] = NAME.sub(repl, sql)
         return tuple(result)

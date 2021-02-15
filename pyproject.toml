@@ -2,7 +2,10 @@
 name = "aioworkers-pg"
 version = "0.0.0"
 description = "Module for working with PostgreSQL via asyncpg"
-authors = ["Alexander Bogushov <abogushov@gmail.com>"]
+authors = [
+    "Alexander Bogushov <abogushov@gmail.com>",
+    "Alexander Malev <aamalev@gmail.com>",
+]
 license = "Apache Software License 2.0"
 readme = "README.md"
 homepage = "https://github.com/aioworkers/aioworkers-pg"

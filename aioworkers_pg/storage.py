@@ -8,7 +8,7 @@ from .sql import SQL, Table
 
 class RoStorage(PGFormattedEntity, Connector, AbstractStorageReadOnly):
     def __init__(self, *args, **kwargs):
-        self._key = ''
+        self._key = ""
         self._table = None
         self._get_sql = None
         super().__init__(*args, **kwargs)
@@ -16,8 +16,8 @@ class RoStorage(PGFormattedEntity, Connector, AbstractStorageReadOnly):
     def set_config(self, config):
         super().set_config(config)
         self._key = self.config.key
-        self._table = self.config.get('table') and Table(self.config.table)
-        get_sql = self.config.get('get')
+        self._table = self.config.get("table") and Table(self.config.table)
+        get_sql = self.config.get("get")
         if get_sql:
             self._get_sql = SQL(get_sql)
         else:

@@ -1,8 +1,11 @@
 [tool.poetry]
 name = "aioworkers-pg"
-version = "0.2.1-alpha.1"
+version = "0.0.0"
 description = "Module for working with PostgreSQL via asyncpg"
-authors = ["Alexander Bogushov <abogushov@gmail.com>"]
+authors = [
+    "Alexander Bogushov <abogushov@gmail.com>",
+    "Alexander Malev <aamalev@gmail.com>",
+]
 license = "Apache Software License 2.0"
 readme = "README.md"
 homepage = "https://github.com/aioworkers/aioworkers-pg"
@@ -26,16 +29,24 @@ packages = [
 [tool.poetry.dependencies]
 python = "^3.6"
 aioworkers = ">=0.15"
-asyncpgsa = "*"
+asyncpg = "<=0.21.0"
+asyncpgsa = "<0.27.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "*"
 pytest-aioworkers = "*"
+pytest-black = "*"
+black = "20.8b1"
 pytest-flake8 = "*"
-flake8-isort = "*"
+flake8 = "*"
 pyyaml = "*"
-mypy = "*"
+pytest-mypy = "*"
 
 [build-system]
-requires = ["poetry-core>=1.0.0"]
+requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.poetry-dynamic-versioning]
+enable = true
+# The pattern for git tag in pep440 format. It is the same as default but without the v prefix.
+pattern = "(?x)^(?P<base>\\d+\\.\\d+\\.\\d+)(-?((?P<stage>[a-zA-Z]+)\\.?(?P<revision>\\d+)?))?(\\+(?P<tagged_metadata>.+))?$"

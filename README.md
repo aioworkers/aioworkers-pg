@@ -1,7 +1,7 @@
 # aioworkers-pg
 
-![PyPI - Python Version](https://img.shields.io/pypi/pyversions/aioworkers-pg)
-![PyPI](https://img.shields.io/pypi/v/aioworkers-pg)
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/aioworkers-pg)](https://pypi.org/project/aioworkers-pg)
+[![PyPI](https://img.shields.io/pypi/v/aioworkers-pg)](https://pypi.org/project/aioworkers-pg)
 
 Asyncpg plugin for `aioworkers`.
 

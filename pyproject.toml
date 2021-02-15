@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "aioworkers-pg"
-version = "0.2.1a8.post5.dev0+447813f"
+version = "0.0.0"
 description = "Module for working with PostgreSQL via asyncpg"
 authors = [
     "Alexander Bogushov <abogushov@gmail.com>",

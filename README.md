@@ -1,5 +1,7 @@
 # aioworkers-pg
 
+
+[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/aioworkers/aioworkers-pg/CI)](https://github.com/aioworkers/aioworkers-pg/actions?query=workflow%3ACI)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/aioworkers-pg)](https://pypi.org/project/aioworkers-pg)
 [![PyPI](https://img.shields.io/pypi/v/aioworkers-pg)](https://pypi.org/project/aioworkers-pg)
 

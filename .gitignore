@@ -105,6 +105,10 @@ venv.bak/
 
 # poetry
 poetry.lock
+poetry.toml
 
 # Idea
 .idea
+
+# Macos
+.DS_Store

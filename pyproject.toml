@@ -53,3 +53,9 @@ pattern = "(?x)^(?P<base>\\d+\\.\\d+\\.\\d+)(-?((?P<stage>[a-zA-Z]+)\\.?(?P<revi
 
 [tool.poetry-dynamic-versioning.substitution]
 enable = true
+
+[tool.pytest.ini_options]
+addopts = "--flake8 --doctest-modules --black --mypy --mypy-ignore-missing-imports"
+testpaths = ["aioworkers_pg", "tests"]
+flake8-max-complexity = 10
+flake8-max-line-length = 99

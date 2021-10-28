@@ -29,8 +29,10 @@ packages = [
 [tool.poetry.dependencies]
 python = "^3.6"
 aioworkers = ">=0.15"
-asyncpg = "<=0.21.0"
-asyncpgsa = "<0.27.0"
+asyncpg = ">=0.22.0"
+# Lock sqlalchemy version to avoid this problem: https://github.com/CanopyTax/asyncpgsa/issues/114
+asyncpgsa = ">=0.25.0"
+SQLAlchemy = "<1.4"
 
 [tool.poetry.dev-dependencies]
 pytest = "*"

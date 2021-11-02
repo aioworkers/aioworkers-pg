@@ -10,6 +10,8 @@ Asyncpg plugin for `aioworkers`.
 
 ## Usage
 
+### Connection
+
 Add this to aioworkers config.yaml:
 
 ```yaml
@@ -26,7 +28,7 @@ await context.db.execute(users.insert().values(name='Bob'))
 ```
 
 
-## Storage
+### Storage
 
 ```yaml
 storage:

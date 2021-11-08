@@ -8,6 +8,7 @@ from aioworkers.core.config import ValueExtractor
 
 class Connector(AbstractConnector):
     _pool_init: Optional[Callable[[asyncpg.Connection], Awaitable]]
+    _pool_setup: Optional[Callable[[asyncpg.Connection], Awaitable]]
     _connection_class: Optional[Type[asyncpg.connection.Connection]]
     _record_class: type
 
@@ -32,6 +33,11 @@ class Connector(AbstractConnector):
             self._pool_init = self.context.get_object(pool_init)
         else:
             self._pool_init = self._default_pool_init
+
+        pool_setup: Optional[str] = self.config.get(
+            "pool.setup",
+        )
+        self._pool_setup = self.context.get_object(pool_setup) if pool_setup else None
 
         connection_class: Optional[str] = self.config.get(
             "pool.connection_class",
@@ -67,6 +73,7 @@ class Connector(AbstractConnector):
         pool = await asyncpg.create_pool(
             config.dsn,
             init=self._pool_init,
+            setup=self._pool_setup,
             connection_class=self._connection_class,
             record_class=self._record_class,
         )

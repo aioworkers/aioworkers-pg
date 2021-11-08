@@ -13,6 +13,7 @@ class Connector(AbstractConnector):
         Type[asyncpg.connection.Connection]
     ] = asyncpg.connection.Connection
     _record_class: type = asyncpg.protocol.Record
+    _connect_kwargs: dict = {}
 
     def __init__(self, *args, **kwargs):
         self._pool = None
@@ -32,26 +33,28 @@ class Connector(AbstractConnector):
                 self.config.get("connection.init")
             )
 
-        pool_config = self.config.get("pool")
+        pool_config = dict(self.config.get("pool", {}))
         if not pool_config:
             # Do not process pool config if there is no any parameter
             return
 
-        pool_init: Optional[str] = pool_config.get("init")
+        pool_init: Optional[str] = pool_config.pop("init", None)
         if pool_init:
             self._pool_init = self.context.get_object(pool_init)
 
-        pool_setup: Optional[str] = pool_config.get("setup")
+        pool_setup: Optional[str] = pool_config.pop("setup", None)
         if pool_setup:
             self._pool_setup = self.context.get_object(pool_setup)
 
-        connection_class: Optional[str] = pool_config.get("connection_class")
+        connection_class: Optional[str] = pool_config.pop("connection_class", None)
         if connection_class:
             self._connection_class = self.context.get_object(connection_class)
 
-        record_class: Optional[str] = pool_config.get("record_class")
+        record_class: Optional[str] = pool_config.pop("record_class", None)
         if record_class:
             self._record_class = self.context.get_object(record_class)
+
+        self._connect_kwargs = pool_config
 
     @property
     def pool(self) -> asyncpg.pool.Pool:
@@ -73,6 +76,7 @@ class Connector(AbstractConnector):
             setup=self._pool_setup,
             connection_class=self._connection_class,
             record_class=self._record_class,
+            **self._connect_kwargs,
         )
         self.logger.debug("Create pool with address %s", config.dsn)
         return pool

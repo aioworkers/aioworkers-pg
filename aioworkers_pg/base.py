@@ -7,54 +7,51 @@ from aioworkers.core.config import ValueExtractor
 
 
 class Connector(AbstractConnector):
-    _pool_init: Optional[Callable[[asyncpg.Connection], Awaitable]]
-    _pool_setup: Optional[Callable[[asyncpg.Connection], Awaitable]]
-    _connection_class: Optional[Type[asyncpg.connection.Connection]]
-    _record_class: type
+    _pool_init: Optional[Callable[[asyncpg.Connection], Awaitable]] = None
+    _pool_setup: Optional[Callable[[asyncpg.Connection], Awaitable]] = None
+    _connection_class: Optional[
+        Type[asyncpg.connection.Connection]
+    ] = asyncpg.connection.Connection
+    _record_class: type = asyncpg.protocol.Record
 
     def __init__(self, *args, **kwargs):
         self._pool = None
+        self._pool_init = self._default_pool_init
         super().__init__(*args, **kwargs)
 
     def set_config(self, config: ValueExtractor) -> None:
         cfg = config.new_parent(logger=__package__)
         super().set_config(cfg)
-        pool_init: Optional[str] = self.config.get(
-            "pool.init",
-        )
+
         # TODO: Remove deprecated code.
         if self.config.get("connection.init"):
             warnings.warn(
                 "Do not use connection.init config. Use pool.init", DeprecationWarning
             )
-            pool_init = self.context.get_object("connection.init")
+            self._pool_init = self.context.get_object(
+                self.config.get("connection.init")
+            )
 
+        pool_config = self.config.get("pool")
+        if not pool_config:
+            # Do not process pool config if there is no any parameter
+            return
+
+        pool_init: Optional[str] = pool_config.get("init")
         if pool_init:
             self._pool_init = self.context.get_object(pool_init)
-        else:
-            self._pool_init = self._default_pool_init
 
-        pool_setup: Optional[str] = self.config.get(
-            "pool.setup",
-        )
-        self._pool_setup = self.context.get_object(pool_setup) if pool_setup else None
+        pool_setup: Optional[str] = pool_config.get("setup")
+        if pool_setup:
+            self._pool_setup = self.context.get_object(pool_setup)
 
-        connection_class: Optional[str] = self.config.get(
-            "pool.connection_class",
-        )
+        connection_class: Optional[str] = pool_config.get("connection_class")
         if connection_class:
             self._connection_class = self.context.get_object(connection_class)
-        else:
-            self._connection_class = asyncpg.connection.Connection
 
-        record_class: Optional[str] = self.config.get(
-            "pool.record_class",
-        )
-
+        record_class: Optional[str] = pool_config.get("record_class")
         if record_class:
             self._record_class = self.context.get_object(record_class)
-        else:
-            self._record_class = asyncpg.protocol.Record
 
     @property
     def pool(self) -> asyncpg.pool.Pool:

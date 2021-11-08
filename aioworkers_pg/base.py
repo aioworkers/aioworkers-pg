@@ -1,4 +1,4 @@
-from typing import Awaitable, Callable, Optional
+from typing import Awaitable, Callable, Optional, Type
 
 import asyncpg
 import warnings
@@ -8,6 +8,8 @@ from aioworkers.core.config import ValueExtractor
 
 class Connector(AbstractConnector):
     _pool_init: Optional[Callable[[asyncpg.Connection], Awaitable]]
+    _connection_class: Optional[Type[asyncpg.connection.Connection]]
+    _record_class: type
 
     def __init__(self, *args, **kwargs):
         self._pool = None
@@ -31,6 +33,23 @@ class Connector(AbstractConnector):
         else:
             self._pool_init = self._default_pool_init
 
+        connection_class: Optional[str] = self.config.get(
+            "pool.connection_class",
+        )
+        if connection_class:
+            self._connection_class = self.context.get_object(connection_class)
+        else:
+            self._connection_class = asyncpg.connection.Connection
+
+        record_class: Optional[str] = self.config.get(
+            "pool.record_class",
+        )
+
+        if record_class:
+            self._record_class = self.context.get_object(record_class)
+        else:
+            self._record_class = asyncpg.protocol.Record
+
     @property
     def pool(self) -> asyncpg.pool.Pool:
         assert self._pool
@@ -48,6 +67,8 @@ class Connector(AbstractConnector):
         pool = await asyncpg.create_pool(
             config.dsn,
             init=self._pool_init,
+            connection_class=self._connection_class,
+            record_class=self._record_class,
         )
         self.logger.debug("Create pool with address %s", config.dsn)
         return pool

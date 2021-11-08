@@ -10,6 +10,8 @@ Asyncpg plugin for `aioworkers`.
 
 ## Usage
 
+### Connection
+
 Add this to aioworkers config.yaml:
 
 ```yaml
@@ -25,8 +27,19 @@ await context.db.execute('CREATE TABLE users(id serial PRIMARY KEY, name text)')
 await context.db.execute(users.insert().values(name='Bob'))
 ```
 
+### Connection additional
 
-## Storage
+```yaml
+db:
+  cls: aioworkers_pg.base.Connector
+  dsn: postgresql:///test
+  pool:
+    min_size: 1
+    max_size: 100
+```
+
+
+### Storage
 
 ```yaml
 storage:

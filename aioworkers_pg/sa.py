@@ -11,12 +11,12 @@ class Connector(BaseConnector):
 
         pool = await asyncpgsa.create_pool(
             config.dsn,
-            init=self._connection_init,
+            init=self._pool_init,
         )
         self.logger.debug("Create pool with address %s", config.dsn)
         return pool
 
-    async def _default_connection_init(self, connection: asyncpg.Connection):
+    async def _default_pool_init(self, connection: asyncpg.Connection):
         import json
 
         # TODO: Need general solution to add codecs

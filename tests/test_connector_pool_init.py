@@ -13,7 +13,7 @@ def config(config, dsn):
         db={
             "cls": "aioworkers_pg.base.Connector",
             "dsn": dsn,
-            "connection": {
+            "pool": {
                 "init": import_uri(custom_init),
             },
         },
@@ -21,9 +21,11 @@ def config(config, dsn):
     return config
 
 
-async def test_custom_connection_init(context):
+async def test_custom_pool_init(context):
     await context.db.execute("SELECT 1")
 
+    # The custom_init function is empty so there is no codec
+    # to translate dict into str.
     with pytest.raises(asyncpg.exceptions.DataError):
         await context.db.execute(
             "SELECT $1",

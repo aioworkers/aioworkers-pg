@@ -30,9 +30,6 @@ packages = [
 python = "^3.6"
 aioworkers = ">=0.15"
 asyncpg = ">=0.22.0"
-# Lock sqlalchemy version to avoid this problem: https://github.com/CanopyTax/asyncpgsa/issues/114
-asyncpgsa = ">=0.25.0"
-SQLAlchemy = "<1.4"
 
 [tool.poetry.dev-dependencies]
 pytest = "*"
@@ -43,6 +40,15 @@ pytest-flake8 = "*"
 flake8 = "*"
 pyyaml = "*"
 pytest-mypy = "*"
+# Lock sqlalchemy version to avoid this problem: https://github.com/CanopyTax/asyncpgsa/issues/114
+asyncpgsa = ">=0.25.0"
+SQLAlchemy = "<1.4"
+
+[tool.poetry.extras]
+sa = [
+    "SQLAlchemy<1.4",
+    "asyncpgsa>=0.25.0",
+]
 
 [build-system]
 requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning"]

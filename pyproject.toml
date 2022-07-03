@@ -42,7 +42,7 @@ pyyaml = "*"
 pytest-mypy = "*"
 # Lock sqlalchemy version to avoid this problem: https://github.com/CanopyTax/asyncpgsa/issues/114
 asyncpgsa = ">=0.25.0"
-SQLAlchemy = "<1.4"
+SQLAlchemy = "<1.5"
 
 [tool.poetry.extras]
 sa = [

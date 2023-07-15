@@ -63,8 +63,8 @@ dev-lint = [
     "mypy==1.3.0",
 ]
 
-[project.entry-points.aioworkers]
-pg = "aioworkers_pg"
+[project.entry-points."aioworkers.storage"]
+pg_ro = "aioworkers_pg.storage:RoStorage"
 
 [project.urls]
 Homepage = "https://github.com/aioworkers/aioworkers-pg"

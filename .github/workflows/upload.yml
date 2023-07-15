@@ -1,0 +1,37 @@
+name: Upload Python Package
+
+on:
+  release:
+    types: [created]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: PyPI
+      url: https://pypi.org/project/aioworkers-pg/${{ github.ref_name }}
+    steps:
+    - uses: actions/checkout@v3.5.2
+    - name: Set up Python
+      uses: actions/setup-python@v4.6.1
+      with:
+        python-version: '3.x'
+    - name: Install dependencies
+      run: |
+        pip install --upgrade pip
+        pip install --upgrade hatch
+    - name: Build
+      run: |
+        hatch version $GITHUB_REF_NAME
+        hatch build
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: dist
+        path: dist
+    - name: Publish
+      env:
+        HATCH_INDEX_USER: __token__
+        HATCH_INDEX_AUTH: ${{ secrets.POETRY_PYPI_TOKEN_PYPI }}
+      run: |
+        hatch publish

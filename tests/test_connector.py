@@ -23,9 +23,7 @@ async def test_connector(context):
     """
     )
 
-    await context.db.execute(
-        """INSERT INTO users(name, data) VALUES($1, $2)""", "Bob", {"x": 1}
-    )
+    await context.db.execute("INSERT INTO users(name, data) VALUES($1, $2)", "Bob", {"x": 1})
 
     await context.db.executemany(
         """INSERT INTO users(name) VALUES($1)""",

@@ -30,9 +30,7 @@ async def test_sa_connector(context):
     # Could not run DropTable(users) or CreateTable(users) because an error during compile
     # https://github.com/CanopyTax/asyncpgsa/issues/93
     await context.db.execute("DROP TABLE IF EXISTS users;")
-    await context.db.execute(
-        "CREATE TABLE users(id serial PRIMARY KEY, name text, data json)"
-    )
+    await context.db.execute("CREATE TABLE users(id serial PRIMARY KEY, name text, data json)")
 
     data = {"x": 1}
     await context.db.execute(users.insert().values(name="Bob", data=data))

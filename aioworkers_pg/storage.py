@@ -7,10 +7,11 @@ from .sql import SQL, Table
 
 
 class RoStorage(PGFormattedEntity, Connector, AbstractStorageReadOnly):
+    _get_sql: SQL
+
     def __init__(self, *args, **kwargs):
         self._key = ""
         self._table = None
-        self._get_sql = None
         super().__init__(*args, **kwargs)
 
     def set_config(self, config):

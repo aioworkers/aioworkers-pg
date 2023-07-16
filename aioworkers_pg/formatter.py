@@ -1,7 +1,9 @@
-from aioworkers.core.formatter import AsIsFormatter
-from aioworkers.core.formatter import BaseFormatter
-from aioworkers.core.formatter import FormattedEntity
-from aioworkers.core.formatter import Registry
+from aioworkers.core.formatter import (
+    AsIsFormatter,
+    BaseFormatter,
+    FormattedEntity,
+    Registry,
+)
 
 
 class DictFormatter(BaseFormatter):

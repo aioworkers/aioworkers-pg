@@ -2,7 +2,6 @@ import re
 from collections import ChainMap
 from typing import Any, Match, Sequence
 
-
 NAME = re.compile(r"[^:]:([\d\w_]+)")
 
 

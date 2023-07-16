@@ -1,3 +1,5 @@
+from typing import Optional
+
 import pytest
 from aioworkers.utils import import_uri
 from asyncpg.connection import Connection
@@ -5,7 +7,7 @@ from asyncpg.protocol.protocol import Record
 
 
 class CustomConnection(Connection):
-    async def execute(self, query: str, *args, timeout: float = None) -> str:
+    async def execute(self, query: str, *args, timeout: Optional[float] = None) -> str:
         query += "SELECT 1"
         return await super().execute(query, *args, timeout=timeout)
 

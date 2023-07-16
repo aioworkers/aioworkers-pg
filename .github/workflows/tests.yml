@@ -38,6 +38,7 @@ jobs:
           - os: ubuntu-latest
             python-version: '3.8'
             coverage: true
+            lint: true
 
     runs-on: ${{ matrix.os }}
 

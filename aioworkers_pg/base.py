@@ -1,37 +1,31 @@
+import warnings
 from typing import Awaitable, Callable, Optional, Type
 
 import asyncpg
-import warnings
 from aioworkers.core.base import AbstractConnector
 from aioworkers.core.config import ValueExtractor
 
 
 class Connector(AbstractConnector):
+    _pool: asyncpg.pool.Pool
     _pool_init: Optional[Callable[[asyncpg.Connection], Awaitable]] = None
     _pool_setup: Optional[Callable[[asyncpg.Connection], Awaitable]] = None
-    _connection_class: Optional[
-        Type[asyncpg.connection.Connection]
-    ] = asyncpg.connection.Connection
+    _connection_class: Optional[Type[asyncpg.connection.Connection]] = asyncpg.connection.Connection
     _record_class: type = asyncpg.protocol.Record
     _connect_kwargs: dict = {}
 
     def __init__(self, *args, **kwargs):
-        self._pool = None
         self._pool_init = self._default_pool_init
         super().__init__(*args, **kwargs)
 
     def set_config(self, config: ValueExtractor) -> None:
-        cfg = config.new_parent(logger=__package__)
+        cfg: ValueExtractor = config.new_parent(logger=__package__)
         super().set_config(cfg)
 
         # TODO: Remove deprecated code.
         if self.config.get("connection.init"):
-            warnings.warn(
-                "Do not use connection.init config. Use pool.init", DeprecationWarning
-            )
-            self._pool_init = self.context.get_object(
-                self.config.get("connection.init")
-            )
+            warnings.warn("Do not use connection.init config. Use pool.init", DeprecationWarning)
+            self._pool_init = self.context.get_object(self.config.get("connection.init"))
 
         pool_config = dict(self.config.get("pool", {}))
         if not pool_config:

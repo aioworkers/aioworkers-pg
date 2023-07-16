@@ -7,7 +7,7 @@ from aioworkers.core.config import ValueExtractor
 
 
 class Connector(AbstractConnector):
-    _pool: asyncpg.pool.Pool
+    _pool: Optional[asyncpg.pool.Pool]
     _pool_init: Optional[Callable[[asyncpg.Connection], Awaitable]] = None
     _pool_setup: Optional[Callable[[asyncpg.Connection], Awaitable]] = None
     _connection_class: Optional[Type[asyncpg.connection.Connection]] = asyncpg.connection.Connection
@@ -15,6 +15,7 @@ class Connector(AbstractConnector):
     _connect_kwargs: dict = {}
 
     def __init__(self, *args, **kwargs):
+        self._pool = None
         self._pool_init = self._default_pool_init
         super().__init__(*args, **kwargs)
 

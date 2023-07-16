@@ -31,6 +31,6 @@ class RoStorage(PGFormattedEntity, Connector, AbstractStorageReadOnly):
         return self._get_sql.with_data({self._key: key})
 
     async def get(self, key):
-        result = await self._pool.fetchrow(*self.raw_key(key))
+        result = await self.pool.fetchrow(*self.raw_key(key))
         if result:
             return self.decode(result)

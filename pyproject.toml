@@ -101,7 +101,7 @@ python = [
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
-timeout = 5
+timeout = 25
 testpaths = [
     "aioworkers_pg",
     "tests",

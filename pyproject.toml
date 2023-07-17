@@ -49,7 +49,7 @@ dev-test = [
     "SQLAlchemy==1.3.24",
     "asyncpg==0.28.0",
     "asyncpgsa==0.27.1",
-    "coverage[toml]==7.2.6",
+    "coverage[toml]==7.2.7",
     "pytest==7.4.0",
     "pytest-aioworkers[asyncio]==0.4",
     "pytest-mock==3.10.0",

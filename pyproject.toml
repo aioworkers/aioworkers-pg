@@ -54,7 +54,7 @@ dev-test = [
     "pytest-aioworkers[asyncio]==0.4",
     "pytest-mock==3.11.1",
     "pytest-timeout",
-    "pyyaml==6.0",
+    "pyyaml==6.0.1",
 ]
 dev-lint = [
     "ruff==0.0.278",

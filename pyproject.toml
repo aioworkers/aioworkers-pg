@@ -45,7 +45,7 @@ sa = [
     "asyncpgsa>0.25",
 ]
 dev-test = [
-    "aioworkers==0.24.1",
+    "aioworkers==0.26",
     "SQLAlchemy==1.3.24",
     "asyncpg==0.28.0",
     "asyncpgsa==0.27.1",

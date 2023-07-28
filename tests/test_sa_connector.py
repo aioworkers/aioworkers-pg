@@ -1,4 +1,5 @@
 import pytest
+import sqlalchemy
 
 
 @pytest.fixture
@@ -27,31 +28,34 @@ async def test_sa_connector(context):
         sa.Column("data", sa.JSON()),
     )
 
-    # Could not run DropTable(users) or CreateTable(users) because an error during compile
-    # https://github.com/CanopyTax/asyncpgsa/issues/93
-    await context.db.execute("DROP TABLE IF EXISTS users;")
-    await context.db.execute("CREATE TABLE users(id serial PRIMARY KEY, name text, data json)")
+    async with context.db.engine.connect() as conn:
+        await conn.run_sync(users.metadata.drop_all)
+        await conn.run_sync(users.metadata.create_all)
 
-    data = {"x": 1}
-    await context.db.execute(users.insert().values(name="Bob", data=data))
-    await context.db.execute(
-        users.insert().values(
-            [
-                {"name": "John"},
-                {"name": "Mike"},
-            ]
+        data = {"x": 1}
+        await conn.execute(users.insert().values(name="Bob", data=data))
+        await conn.execute(
+            users.insert().values(
+                [
+                    {"name": "John"},
+                    {"name": "Mike"},
+                ]
+            )
         )
-    )
-    count = await context.db.fetchval(users.count())
-    assert 3 == count
+        count = await conn.execute(sa.select(sa.func.count()).select_from(users))
+        assert 3 == count.scalar()
+        sql = users.select().where(users.c.id == 1)
+        result: sa.CursorResult = await conn.execute(sql)
+        user = dict(zip(sql.selected_columns.keys(), result.fetchone()))
+        assert "Bob" == user["name"]
+        assert data == user["data"]
 
-    user = await context.db.fetchrow(users.select().where(users.c.id == 1))
-    assert "Bob" == user["name"]
-    assert data == user["data"]
 
-    r = [i for i in await context.db.fetch(users.select())]
-    assert 3 == len(r)
+async def test_execute(context):
+    r = await context.db.execute(sqlalchemy.select(sqlalchemy.func.now()))
+    assert 1 == r.rowcount
 
-    await context.db.close()
-    # Check that method available
-    context.db.terminate()
+
+async def test_execute_str(context):
+    r = await context.db.execute("SELECT now()")
+    assert 1 == r.rowcount

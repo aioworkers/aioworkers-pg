@@ -1,31 +1,29 @@
-import asyncpg
-from aioworkers.core.config import ValueExtractor
+from typing import Union
 
-# true
-from .base import Connector as BaseConnector
+from aioworkers.core.base import AbstractConnector
+from sqlalchemy import CursorResult, Executable, text
+from sqlalchemy.ext.asyncio import AsyncEngine, create_async_engine
 
 
-class Connector(BaseConnector):
-    async def pool_factory(self, config: ValueExtractor) -> asyncpg.pool.Pool:
-        import asyncpgsa
+class Connector(AbstractConnector):
+    engine: AsyncEngine
 
-        pool = await asyncpgsa.create_pool(
-            config.dsn,
-            init=self._pool_init,
+    async def connect(self):
+        dsn = self.config.get_uri("dsn")
+        dsn = dsn.with_scheme("postgresql+asyncpg")
+
+        self.engine = create_async_engine(
+            dsn,
+            echo=True,
         )
-        self.logger.debug("Create pool with address %s", config.dsn)
-        return pool
 
-    async def _default_pool_init(self, connection: asyncpg.Connection):
-        import json
+        self.logger.debug("Create engine with dsn %s", dsn.with_password("***"))
 
-        # TODO: Need general solution to add codecs
-        # https://github.com/aioworkers/aioworkers-pg/issues/1
-        # Add codecs for json.
-        for t in ["json", "jsonb"]:
-            await connection.set_type_codec(
-                t,
-                encoder=lambda x: x,
-                decoder=json.loads,
-                schema="pg_catalog",
-            )
+    async def disconnect(self):
+        await self.engine.dispose()
+
+    async def execute(self, statement: Union[str, Executable], *args, **kwargs) -> CursorResult:
+        async with self.engine.connect() as conn:
+            if isinstance(statement, str):
+                statement = text(statement)
+            return await conn.execute(statement, *args, **kwargs)

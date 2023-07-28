@@ -41,12 +41,11 @@ dependencies = [
 ]
 [project.optional-dependencies]
 sa = [
-    "SQLAlchemy<1.4",
-    "asyncpgsa>0.25",
+    "SQLAlchemy[asyncio]>2",
 ]
 dev-test = [
     "aioworkers==0.26",
-    "SQLAlchemy==1.3.24",
+    "SQLAlchemy[asyncio]==2.0.19",
     "asyncpg==0.28.0",
     "asyncpgsa==0.27.1",
     "coverage[toml]==7.2.7",

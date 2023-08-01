@@ -1,18 +1,35 @@
 import pytest
+from aioworkers.net.uri import URI
+
+from aioworkers_pg.base import Connector
 
 
 @pytest.fixture
 def config(config, dsn):
+    uri = URI(dsn)
+    port = uri.port or 5432  # type: ignore # https://github.com/aioworkers/aioworkers/pull/202
+    database = (uri.path or "").strip("/")  # type: ignore
     config.update(
         db={
+            "name": "db",
             "cls": "aioworkers_pg.base.Connector",
-            "dsn": dsn,
+            "username": uri.username,
+            "password": uri.password,
+            "host": uri.hostname,
+            "database": database,
+            "port": port,
         },
     )
     return config
 
 
-async def test_connector(context):
+def test_dsn(config, dsn):
+    c = Connector()
+    c.set_config(config.db)
+    assert str(c._dsn) == dsn
+
+
+async def test_connector(context, dsn):
     """
     Test common asyncpg pool methods which were bind to connector.
     """

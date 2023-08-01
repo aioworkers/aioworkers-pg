@@ -8,6 +8,7 @@ from aioworkers.net.uri import URI
 class AbstractPGConnector(AbstractConnector):
     _dsn: Optional[URI] = None
     _default_dsn: URI = URI("postgresql:///")
+    _default_port: int = 5432
 
     def set_config(self, config: ValueExtractor) -> None:
         cfg: ValueExtractor = config.new_parent(logger=__package__)
@@ -20,7 +21,9 @@ class AbstractPGConnector(AbstractConnector):
             dsn = (dsn or self._default_dsn).with_host(host)
 
         port = self.config.get_int("port", null=True)
-        if port:
+        if port in {self._default_port}:
+            port = 0
+        if port is not None:
             dsn = (dsn or self._default_dsn).with_port(port)
 
         username = self.config.get("username")

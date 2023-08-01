@@ -7,7 +7,7 @@ from aioworkers_pg.base import Connector
 @pytest.fixture
 def config(config, dsn):
     uri = URI(dsn)
-    database = (uri.path or "").strip("/")
+    database = (uri.path or "").strip("/")  # typing: ignore
     config.update(
         db={
             "name": "db",

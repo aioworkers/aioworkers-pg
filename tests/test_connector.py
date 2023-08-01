@@ -7,6 +7,7 @@ from aioworkers_pg.base import Connector
 @pytest.fixture
 def config(config, dsn):
     uri = URI(dsn)
+    port = uri.port or 5432  # type: ignore # https://github.com/aioworkers/aioworkers/pull/202
     database = (uri.path or "").strip("/")  # type: ignore
     config.update(
         db={
@@ -16,6 +17,7 @@ def config(config, dsn):
             "password": uri.password,
             "host": uri.hostname,
             "database": database,
+            "port": port,
         },
     )
     return config

@@ -76,6 +76,10 @@ _____________________
     pool:
       min_size: 1
       max_size: 100
+    connection:  # optional
+      init: mymodule.connection_init
+      setup: mymodule.connection_setup
+      class: mymodule.Connection
 
 
 Storage

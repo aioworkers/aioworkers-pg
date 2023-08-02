@@ -73,6 +73,11 @@ _____________________
   db:
     cls: aioworkers_pg.base.Connector
     dsn: postgresql:///test
+    host: localhost
+    port: 5432
+    database: test
+    username: postgres
+    password: postgres
     pool:
       min_size: 1
       max_size: 100

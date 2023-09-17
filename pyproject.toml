@@ -56,7 +56,7 @@ dev-test = [
     "pyyaml==6.0.1",
 ]
 dev-lint = [
-    "ruff==0.0.284",
+    "ruff==0.0.290",
     "isort==5.12.0",
     "black==23.9.1",
     "mypy==1.5.1",

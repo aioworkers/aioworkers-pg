@@ -11,7 +11,7 @@ jobs:
       name: PyPI
       url: https://pypi.org/project/aioworkers-pg/${{ github.ref_name }}
     steps:
-    - uses: actions/checkout@v4.1.1
+    - uses: actions/checkout@v4.1.3
     - name: Set up Python
       uses: actions/setup-python@v4.7.1
       with:
